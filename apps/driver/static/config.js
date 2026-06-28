@@ -8,5 +8,5 @@ const wsPort = params.get("wsPort") || "8090";
 export const API = `http://${host}:${apiPort}`;
 export const WS = `ws://${host}:${wsPort}`;
 
-// Default map centre: central Lagos. Both apps start here.
+// Default map centre: central Lagos.
 export const DEFAULT_CENTER = [6.5244, 3.3792];

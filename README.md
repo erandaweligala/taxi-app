@@ -2,8 +2,9 @@
 
 A ride-hailing platform built in Go, structured around the five load patterns
 that define ride-hailing at scale. It is a **runnable MVP**: `docker compose up`
-brings up the full stack — Redis, Kafka, Postgres, and four application services
-— and you can drive a complete trip end to end.
+brings up the full stack — Redis, Kafka, Postgres, the backend services, and two
+standalone front-end apps (rider and driver) — and you can drive a complete trip
+end to end.
 
 The design follows two principles throughout: **stateless services with state in
 Redis/Kafka/Postgres**, and **shard everything by geography**. See
@@ -44,7 +45,8 @@ reasoning behind each decision.
 | `cmd/locationworker` | Driver location updates      | Consumes the location firehose from Kafka and indexes positions into Redis geo sets (sharded per region). |
 | `cmd/tripworker` | Trip lifecycle                   | Consumes durable trip events, persists the projection + audit log to Postgres, and fans out notifications. |
 | `cmd/gateway`    | Real-time connections            | Holds WebSocket connections on its own scaling axis; forwards pub/sub messages to the right socket regardless of node. |
-| `cmd/web`        | Front end                        | Serves the rider and driver browser apps (embedded static assets) independently of the business services. |
+| `apps/rider`     | Rider front end                  | Standalone rider app — own binary/container/port, embeds its own assets, no shared package. |
+| `apps/driver`    | Driver front end                 | Standalone driver app — independently built, deployed, and scaled. |
 
 State lives in shared `internal/` packages: `region` (geo sharding), `geo`
 (Redis geo ops), `match`, `surge`, `trip` (lifecycle + cache + durable store),
@@ -61,10 +63,10 @@ make demo        # end-to-end smoke test: drivers online → ride → lifecycle
 make down        # stop and clean up (removes volumes)
 ```
 
-Then open the apps in your browser:
+The rider and driver are **separate apps**, each its own service on its own port:
 
-- **Rider app:** http://localhost:8081/rider/
-- **Driver app:** http://localhost:8081/driver/
+- **Rider app:** http://localhost:8081/
+- **Driver app:** http://localhost:8082/
 
 Open both side by side. In the driver app, click **Go online** (it pings its map
 position every 4s). In the rider app, set a pickup near the driver and click
@@ -77,7 +79,7 @@ Local development without Docker (point env vars at your own infra):
 
 ```bash
 make test        # unit tests — no infrastructure required
-make build       # compile all four binaries into ./bin
+make build       # compile all service binaries into ./bin
 ```
 
 ## API

@@ -12,7 +12,8 @@ RUN CGO_ENABLED=0 go build -o /out/api            ./cmd/api && \
     CGO_ENABLED=0 go build -o /out/locationworker ./cmd/locationworker && \
     CGO_ENABLED=0 go build -o /out/tripworker     ./cmd/tripworker && \
     CGO_ENABLED=0 go build -o /out/gateway        ./cmd/gateway && \
-    CGO_ENABLED=0 go build -o /out/web            ./cmd/web
+    CGO_ENABLED=0 go build -o /out/rider          ./apps/rider && \
+    CGO_ENABLED=0 go build -o /out/driver         ./apps/driver
 
 FROM alpine:3.20
 RUN adduser -D -u 10001 app

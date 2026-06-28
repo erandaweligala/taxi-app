@@ -119,23 +119,3 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
   padding: 7px 9px;
 }
 .log .entry time { color: var(--muted); font-size: 11px; display: block; }
-
-.home {
-  margin: auto;
-  text-align: center;
-  max-width: 420px;
-}
-.home a {
-  display: block;
-  margin: 12px 0;
-  padding: 18px;
-  background: var(--panel-2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text);
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 600;
-}
-.home a:hover { border-color: var(--accent); }
-.home .muted { color: var(--muted); font-weight: 400; font-size: 14px; }

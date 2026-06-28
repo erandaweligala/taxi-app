@@ -1,6 +1,6 @@
-import { DEFAULT_CENTER } from "../shared/config.js";
-import { postJSON, getJSON, randomId } from "../shared/api.js";
-import { connectLive } from "../shared/live.js";
+import { DEFAULT_CENTER } from "./config.js";
+import { postJSON, getJSON, randomId } from "./api.js";
+import { connectLive } from "./live.js";
 
 const $ = (id) => document.getElementById(id);
 
