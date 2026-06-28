@@ -111,3 +111,19 @@ area**.
 | Trip lifecycle          | Moderate, must be durable   | Postgres/Oracle + cache| Kafka events   | Event partitions          |
 | Real-time connections   | 50k+ persistent sockets     | —                      | WS/MQTT + pub/sub | Dedicated gateway tier  |
 | Peak / surge            | 5–10x localized spikes      | —                      | —              | Region-level autoscaling  |
+
+---
+
+## How this maps to the implementation
+
+This repository implements the patterns above as a runnable Go MVP (see the
+[README](../../README.md) to run it). Each pattern has a concrete home:
+
+| Pattern                 | Service / package                          | Notes |
+|-------------------------|--------------------------------------------|-------|
+| Driver location updates | `cmd/locationworker`, `internal/geo`       | API publishes the firehose to Kafka; the worker indexes into Redis geo sets keyed per region. Main DB untouched. |
+| Matching / dispatch     | `internal/match`, `cmd/api`                | Stateless; `GEOSEARCH` for candidates, in-memory ranking. Scales by API replicas, shardable per region. |
+| Trip lifecycle          | `internal/trip`, `cmd/tripworker`          | Kafka event per transition; Postgres projection + audit log; active trips cached in Redis. |
+| Real-time connections   | `cmd/gateway`, `internal/pubsub`           | Dedicated WebSocket tier; Redis pub/sub fan-out routes to whichever node holds the socket. |
+| Peak / surge            | `internal/surge`, `cmd/api`                | Per-region demand/supply multiplier; ingest edge sheds load under backpressure. |
+| Geographic sharding     | `internal/region`                          | Geohash-based region key used as both the Kafka partition key and the Redis geo-set suffix. |
