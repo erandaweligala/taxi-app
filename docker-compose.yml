@@ -84,3 +84,12 @@ services:
     environment: *appenv
     depends_on:
       redis: {condition: service_healthy}
+
+  web:
+    build: .
+    command: ["web"]
+    ports: ["8081:8081"]
+    environment: *appenv
+    depends_on:
+      api: {condition: service_started}
+      gateway: {condition: service_started}

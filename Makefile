@@ -6,6 +6,7 @@ build: ## Compile all service binaries into ./bin
 	go build -o bin/locationworker ./cmd/locationworker
 	go build -o bin/tripworker ./cmd/tripworker
 	go build -o bin/gateway ./cmd/gateway
+	go build -o bin/web ./cmd/web
 
 test: ## Run unit tests (no infra required)
 	go test ./...

@@ -81,7 +81,7 @@ func main() {
 	mux.HandleFunc("GET /v1/trips/{id}", s.handleGetTrip)
 	mux.HandleFunc("GET /v1/surge", s.handleSurge)
 
-	srv := &http.Server{Addr: cfg.HTTPAddr, Handler: httpx.Logging(mux)}
+	srv := &http.Server{Addr: cfg.HTTPAddr, Handler: httpx.Logging(httpx.CORS(mux))}
 	go func() {
 		log.Printf("api listening on %s", cfg.HTTPAddr)
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {

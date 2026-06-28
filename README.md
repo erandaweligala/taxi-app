@@ -44,6 +44,7 @@ reasoning behind each decision.
 | `cmd/locationworker` | Driver location updates      | Consumes the location firehose from Kafka and indexes positions into Redis geo sets (sharded per region). |
 | `cmd/tripworker` | Trip lifecycle                   | Consumes durable trip events, persists the projection + audit log to Postgres, and fans out notifications. |
 | `cmd/gateway`    | Real-time connections            | Holds WebSocket connections on its own scaling axis; forwards pub/sub messages to the right socket regardless of node. |
+| `cmd/web`        | Front end                        | Serves the rider and driver browser apps (embedded static assets) independently of the business services. |
 
 State lives in shared `internal/` packages: `region` (geo sharding), `geo`
 (Redis geo ops), `match`, `surge`, `trip` (lifecycle + cache + durable store),
@@ -59,6 +60,18 @@ make logs        # tail the application services
 make demo        # end-to-end smoke test: drivers online → ride → lifecycle
 make down        # stop and clean up (removes volumes)
 ```
+
+Then open the apps in your browser:
+
+- **Rider app:** http://localhost:8081/rider/
+- **Driver app:** http://localhost:8081/driver/
+
+Open both side by side. In the driver app, click **Go online** (it pings its map
+position every 4s). In the rider app, set a pickup near the driver and click
+**Request ride** — the driver receives the assignment live over WebSocket, and
+can **Start** then **Complete** the trip while the rider sees each transition.
+Drag either marker to move. The apps auto-detect the backend on the same host;
+override with `?host=&apiPort=&wsPort=` query params if needed.
 
 Local development without Docker (point env vars at your own infra):
 

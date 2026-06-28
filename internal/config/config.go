@@ -11,6 +11,7 @@ import (
 type Config struct {
 	HTTPAddr      string   // api listen address
 	GatewayAddr   string   // websocket gateway listen address
+	WebAddr       string   // static web app listen address
 	KafkaBrokers  []string // kafka bootstrap brokers
 	RedisAddr     string   // redis address
 	PostgresDSN   string   // postgres connection string
@@ -22,6 +23,7 @@ func Load() Config {
 	return Config{
 		HTTPAddr:      env("HTTP_ADDR", ":8080"),
 		GatewayAddr:   env("GATEWAY_ADDR", ":8090"),
+		WebAddr:       env("WEB_ADDR", ":8081"),
 		KafkaBrokers:  split(env("KAFKA_BROKERS", "localhost:9092")),
 		RedisAddr:     env("REDIS_ADDR", "localhost:6379"),
 		PostgresDSN:   env("POSTGRES_DSN", "postgres://taxi:taxi@localhost:5432/taxi?sslmode=disable"),

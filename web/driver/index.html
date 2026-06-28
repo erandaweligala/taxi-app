@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Driver · taxi-app</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="/shared/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>taxi-app <span class="role">· Driver</span></h1>
+      <div class="spacer"></div>
+      <label>Driver ID</label>
+      <input id="driverId" />
+      <span id="conn" class="pill off">offline</span>
+    </header>
+
+    <div class="layout">
+      <div id="map"></div>
+      <div class="sidebar">
+        <div class="card">
+          <h2>Status</h2>
+          <div class="row">
+            <span class="k">availability</span>
+            <span id="avail" class="pill off">offline</span>
+          </div>
+          <div class="row"><span class="k">last ping</span><span id="ping">—</span></div>
+          <div class="row"><span class="k">position</span><span id="posn">—</span></div>
+          <button id="toggle" class="secondary">Go online</button>
+          <p class="muted" style="font-size:12px;margin:8px 0 0">
+            Drag the marker to move; pings use the live position every 4s.
+          </p>
+        </div>
+
+        <div class="card" id="tripCard" style="display:none">
+          <h2>Assigned trip</h2>
+          <div class="row"><span class="k">trip</span><span id="tripId">—</span></div>
+          <div class="row"><span class="k">rider</span><span id="rider">—</span></div>
+          <div class="row"><span class="k">state</span><span id="state" class="pill">—</span></div>
+          <button id="start" class="secondary" disabled>Start trip</button>
+          <button id="complete" disabled>Complete trip</button>
+        </div>
+
+        <div class="log" id="log"></div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

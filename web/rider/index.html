@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rider · taxi-app</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="/shared/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>taxi-app <span class="role">· Rider</span></h1>
+      <div class="spacer"></div>
+      <label>Rider ID</label>
+      <input id="riderId" />
+      <span id="conn" class="pill off">offline</span>
+    </header>
+
+    <div class="layout">
+      <div id="map"></div>
+      <div class="sidebar">
+        <div class="card">
+          <h2>Pickup</h2>
+          <div class="row"><span class="k">lat</span><span id="lat">—</span></div>
+          <div class="row"><span class="k">lng</span><span id="lng">—</span></div>
+          <p class="muted" style="font-size:12px;margin:6px 0 0">
+            Click the map or drag the marker to set pickup.
+          </p>
+        </div>
+
+        <div class="card">
+          <h2>Surge</h2>
+          <div class="big"><span id="surge">1.0</span>×</div>
+          <div class="row">
+            <span class="k">drivers nearby</span><span id="supply">—</span>
+          </div>
+          <button id="request">Request ride</button>
+        </div>
+
+        <div class="card" id="tripCard" style="display:none">
+          <h2>Trip</h2>
+          <div class="row"><span class="k">state</span><span id="state" class="pill">—</span></div>
+          <div class="row"><span class="k">driver</span><span id="driver">—</span></div>
+          <div class="row"><span class="k">distance</span><span id="dist">—</span></div>
+          <button id="cancel" class="danger">Cancel ride</button>
+        </div>
+
+        <div class="log" id="log"></div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
