@@ -45,8 +45,10 @@ reasoning behind each decision.
 | `cmd/locationworker` | Driver location updates      | Consumes the location firehose from Kafka and indexes positions into Redis geo sets (sharded per region). |
 | `cmd/tripworker` | Trip lifecycle                   | Consumes durable trip events, persists the projection + audit log to Postgres, and fans out notifications. |
 | `cmd/gateway`    | Real-time connections            | Holds WebSocket connections on its own scaling axis; forwards pub/sub messages to the right socket regardless of node. |
-| `apps/rider`     | Rider front end                  | Standalone rider app — own binary/container/port, embeds its own assets, no shared package. |
-| `apps/driver`    | Driver front end                 | Standalone driver app — independently built, deployed, and scaled. |
+| `apps/rider`     | Rider web front end              | Standalone rider web app — own binary/container/port, embeds its own assets, no shared package. |
+| `apps/driver`    | Driver web front end             | Standalone driver web app — independently built, deployed, and scaled. |
+| `mobile/rider`   | Rider mobile app                 | Native Android/iOS app (React Native + Expo). |
+| `mobile/driver`  | Driver mobile app                | Native Android/iOS app (React Native + Expo). |
 
 State lives in shared `internal/` packages: `region` (geo sharding), `geo`
 (Redis geo ops), `match`, `surge`, `trip` (lifecycle + cache + durable store),
@@ -74,6 +76,21 @@ position every 4s). In the rider app, set a pickup near the driver and click
 can **Start** then **Complete** the trip while the rider sees each transition.
 Drag either marker to move. The apps auto-detect the backend on the same host;
 override with `?host=&apiPort=&wsPort=` query params if needed.
+
+### Native mobile apps (Android + iOS)
+
+There are also native rider and driver apps (React Native + Expo) under
+[`mobile/`](mobile/README.md). With the backend running, install Expo Go on your
+phone and:
+
+```bash
+cd mobile/rider     # and, separately, mobile/driver
+npm install
+npx expo start      # scan the QR code with Expo Go
+```
+
+See [mobile/README.md](mobile/README.md) for emulator use and building
+installable APK/IPA files via EAS.
 
 Local development without Docker (point env vars at your own infra):
 

@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "Taxi Driver",
+    "slug": "taxi-driver",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.taxiapp.driver",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Used to share your live location while online."
+      }
+    },
+    "android": {
+      "package": "com.taxiapp.driver",
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "config": {
+        "googleMaps": { "apiKey": "" }
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["expo-location"],
+    "extra": {
+      "backendHost": ""
+    }
+  }
+}
